@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Informasi Social Media</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+  <h1>Selamat datang di website example</h1>
+  <p>Website Error...</p>
+
+  <script>
+    // === Ganti dengan config Firebase kamu sendiri ===
+    const firebaseConfig = {
+    apiKey: "AIzaSyCB_wr4EqhPRzSWQuLgr-eyV9Zisw8_rIs",
+    authDomain: "xr-social-53646.firebaseapp.com",
+    projectId: "xr-social-53646",
+    storageBucket: "xr-social-53646.firebasestorage.app",
+    messagingSenderId: "55685443011",
+    appId: "1:55685443011:web:ef0f9de8e329d24d512176",
+    measurementId: "G-LTMZD79ZWX"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function getUserIP(callback) {
+      // Mendapatkan IP publik user via API external
+      fetch('https://api.ipify.org?format=json')
+        .then(res => res.json())
+        .then(data => callback(data.ip))
+        .catch(() => callback(null));
+    }
+
+    // Ambil info user lalu simpan ke Firebase
+    function sendUserData(ip) {
+      const entry = {
+        timestamp: Date.now(),
+        ip: ip,
+        userAgent: navigator.userAgent,
+        referer: document.referrer || ''
+      };
+      db.ref('visitors').push(entry);
+    }
+
+    getUserIP(sendUserData);
+  </script>
+</body>
+</html>
