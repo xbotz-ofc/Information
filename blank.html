@@ -27,7 +27,6 @@
   </table>
 
   <script>
-    // === Ganti dengan config Firebase kamu sendiri ===
     const firebaseConfig = {
   apiKey: "AIzaSyCB_wr4EqhPRzSWQuLgr-eyV9Zisw8_rIs",
   authDomain: "xr-social-53646.firebaseapp.com",
@@ -52,7 +51,6 @@
 
     const dataList = document.getElementById('data-list');
 
-    // Ambil data realtime dari /visitors dan tampilkan di tabel
     db.ref('visitors').on('value', snapshot => {
       dataList.innerHTML = '';
       const data = snapshot.val();
